@@ -1,0 +1,34 @@
+name: Update Dependencies
+
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks out pipeline repository
+      - name: 'Checkout pipeline repo'
+        uses: actions/checkout@v3
+
+      # # Checks out pipeline repository
+      # - name: 'Checkout pipeline repo'
+      #   uses: actions/checkout@v3
+      #   with:
+      #     repository: PipelineTest-VP/dependency-details
+      #     token: ${{ secrets.GTHUB_TOKEN }}
+      #     path: dependency_details
+
+      # Updated the dependency details repo
+      - name: check the diff for dependencies in package.json
+        uses: ./.github/actions/scan-dependency-changes
+        with:
+          gthub-org-name: ${{ secrets.GTHUB_ORGNAME }}
+          gthub-username: ${{ secrets.GTHUB_USERNAME }}
+          gthub-token: ${{ secrets.GTHUB_TOKEN }}
+          dependency-repo-name: 'dependency-details'
