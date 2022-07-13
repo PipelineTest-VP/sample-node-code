@@ -1,9 +1,23 @@
-const axios = require("axios");
-
 async function main() {
-    const url = "https://reqres.in/api/users/2";
-    const response = await axios.get(url);
-    console.log(response.data.data);
+    try {
+        let snowStatus = "initial";
+        let msTime = 0;
+        do {
+            msTime = msTime +  5000;
+            console.log(`MS time: ${msTime} and snow status: ${snowStatus}`);
+            if(msTime === 20000) {
+                snowStatus = "approved";
+                console.log(`MS time: ${msTime} and snow status: ${snowStatus}`);
+            }
+            await sleep(5000);
+        } while (snowStatus !== "approved");
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 main();
